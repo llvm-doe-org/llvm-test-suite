@@ -223,7 +223,6 @@ set(TEST_SUITE_OPENACCVV_EXPECT_PASS
 )
 
 function (add_openaccvv LANG)
-  set(_includedir "${CLACC_BUILD_DIR}/runtimes/runtimes-bins/openmp")
   if ("${LANG}" STREQUAL "C")
     set(_langext ".c")
   elseif ("${LANG}" STREQUAL "CXX")
@@ -236,10 +235,7 @@ function (add_openaccvv LANG)
   foreach (_file IN LISTS _tests_sources)
     get_filename_component(_ext "${_file}" EXT)
     get_filename_component(_basename "${_file}" NAME_WE)
-    get_filename_component(_directory "${_file}" DIRECTORY)
     string(REPLACE "." "" _ext "${_ext}")
-    string(REPLACE "/" "_" _directory "${_directory}")
-    string(REPLACE "." "" _directory "${_directory}")
     set(_name "${_basename}-${_ext}")
 
     if (NOT TEST_SUITE_OPENACCVV_FORCE_ALL AND NOT "${_file}" IN_LIST TEST_SUITE_OPENACCVV_EXPECT_PASS)
