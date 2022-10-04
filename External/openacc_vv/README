@@ -1,9 +1,10 @@
 OpenACC Validation & Verification Suite
 https://crpl.cis.udel.edu/oaccvv/
 
-This directory contains a CMakeLists.txt for the OpenACC Validation and Verification Suite so it can be built as part
-of the LLVM test-suite. Its sources are not part of the test-suite but
-have to be fetched separately from https://github.com/OpenACCUserGroup/OpenACCV-V.
+This directory contains a CMakeLists.txt for the OpenACC Validation and 
+Verification Suite so it can be built as part of the LLVM test-suite. 
+Its sources are not part of the test-suite but have to be fetched separately 
+from https://github.com/OpenACCUserGroup/OpenACCV-V.
 
 The sources are expected either in ${TEST_SUITE_OPENACCVV_ROOT} or
 ${TEST_SUITE_EXTERNALS_DIR}/openacc_vv, where TEST_SUITE_OPENACCVV_ROOT
@@ -19,4 +20,12 @@ machine.
 
 An example run is:
 
-cmake ../llvm-test-suite -DCMAKE_BUILD_TYPE=Release -DTEST_SUITE_OPENACCVV_ROOT=${HOME}/OpenACCV-V -DTEST_SUITE_LIT=${CLACC_BUILD_DIR}/../build/bin/llvm-lit -DCMAKE_C_COMPILER=${CLACC_BUILD_DIR}/bin/clang -DCMAKE_CXX_COMPILER=${CLACC_BUILD_DIR}/bin/clang++ -DTEST_SUITE_SUBDIRS=External/openacc_vv -DCLACC_BUILD_DIR=${CLACC_BUILD_DIR} -DTEST_SUITE_LIT_FLAGS=-svj1
+$ cmake ../llvm-test-suite -DCMAKE_BUILD_TYPE=Release                       \
+   -DTEST_SUITE_OPENACCVV_ROOT=${HOME}/OpenACCV-V                           \
+   -DTEST_SUITE_LIT=${HOME}/install/llvm-project/build/bin/llvm-lit         \
+   -DCMAKE_C_COMPILER=${HOME}/install/llvm-project/install/bin/clang        \
+   -DCMAKE_CXX_COMPILER=${HOME}/install/llvm-project/install/bin/clang++    \
+   -DTEST_SUITE_SUBDIRS=External/openacc_vv                                 \
+   -DTEST_SUITE_LIT_FLAGS=-svj1
+$ make
+$ llvm-lit . -o result.json -s
