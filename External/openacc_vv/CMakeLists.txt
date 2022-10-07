@@ -233,10 +233,6 @@ function (add_openaccvv LANG)
 
   file(GLOB_RECURSE _tests_sources RELATIVE "${TEST_SUITE_OPENACCVV_ROOT}/Tests" "${TEST_SUITE_OPENACCVV_ROOT}/Tests/*${_langext}" )
   foreach (_file IN LISTS _tests_sources)
-    get_filename_component(_ext "${_file}" EXT)
-    get_filename_component(_basename "${_file}" NAME_WE)
-    string(REPLACE "." "" _ext "${_ext}")
-    set(_name "${_basename}-${_ext}")
 
     if (NOT TEST_SUITE_OPENACCVV_FORCE_ALL AND NOT "${_file}" IN_LIST TEST_SUITE_OPENACCVV_EXPECT_PASS)
             message(STATUS "Skipping OPENACC V&V test ${_file}")
@@ -244,9 +240,9 @@ function (add_openaccvv LANG)
     endif ()
 
     llvm_test_run()
-    llvm_test_executable(${_name} "${TEST_SUITE_OPENACCVV_ROOT}/Tests/${_file}")
+    llvm_test_executable(${_file} "${TEST_SUITE_OPENACCVV_ROOT}/Tests/${_file}")
     # To specify libraries or flags to use when linking a given target and/or its dependents
-    target_link_libraries(${_name} PUBLIC OpenACC::OpenACC_${_lang})
+    target_link_libraries(${_file} PUBLIC OpenACC::OpenACC_${_lang})
   endforeach ()
 endfunction ()
 
