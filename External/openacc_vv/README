@@ -1,0 +1,31 @@
+OpenACC Validation & Verification Suite
+https://crpl.cis.udel.edu/oaccvv/
+
+This directory contains a CMakeLists.txt for the OpenACC Validation and 
+Verification Suite so it can be built as part of the LLVM test-suite. 
+Its sources are not part of the test-suite but have to be fetched separately 
+from https://github.com/OpenACCUserGroup/OpenACCV-V.
+
+The sources are expected either in ${TEST_SUITE_OPENACCVV_ROOT} or
+${TEST_SUITE_EXTERNALS_DIR}/openacc_vv, where TEST_SUITE_OPENACCVV_ROOT
+and TEST_SUITE_EXTERNALS_DIR are CMake configure variables. If none of
+them are set, it will look into
+${CMAKE_SOURCE_DIR}/test-suite-externals/openacc_vv where
+CMAKE_SOURCE_DIR is the root directory of the test-suite sources.
+
+The CMakeLists.txt will search for all C and C++ source files of the
+OpenACC V&V suite, compile and run them. That is, running llvm-lit
+(or "make check") will require a compatible accelerator on the running
+machine.
+
+An example run is:
+
+$ cmake ../llvm-test-suite -DCMAKE_BUILD_TYPE=Release                       \
+   -DTEST_SUITE_OPENACCVV_ROOT=${HOME}/OpenACCV-V                           \
+   -DTEST_SUITE_LIT=${HOME}/install/llvm-project/build/bin/llvm-lit         \
+   -DCMAKE_C_COMPILER=${HOME}/install/llvm-project/install/bin/clang        \
+   -DCMAKE_CXX_COMPILER=${HOME}/install/llvm-project/install/bin/clang++    \
+   -DTEST_SUITE_SUBDIRS=External/openacc_vv                                 \
+   -DTEST_SUITE_LIT_FLAGS=-svj1
+$ make
+$ llvm-lit . -o result.json -s
